@@ -2,8 +2,8 @@ name: Sentinel
 
 on:
   schedule:
-    - cron: "*/17 * * * *"   # every 30 minutes (UTC)
-  workflow_dispatch:          # lets you also run it manually from the Actions tab
+    - cron: "17 * * * *"   # hourly, at minute 17 (avoids GitHub's top-of-hour congestion)
+  workflow_dispatch:        # lets you also run it manually from the Actions tab
 
 # Never let two runs overlap (a slow cold-start check could otherwise stack up).
 concurrency:
@@ -12,12 +12,12 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned so the ubuntu-latest migration can't change behavior unannounced
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip

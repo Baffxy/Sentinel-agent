@@ -101,6 +101,8 @@ def run_all_checks():
         if deploy_finding:
             findings.append(deploy_finding)
     except requests.RequestException as exc:
+        status = getattr(getattr(exc, "response", None), "status_code", None)
+        reason = f"HTTP {status}" if status else type(exc).__name__
         findings.append(
             {
                 "target": "Render",
