@@ -1,0 +1,37 @@
+name: Sentinel
+
+on:
+  schedule:
+    - cron: "*/17 * * * *"   # every 30 minutes (UTC)
+  workflow_dispatch:          # lets you also run it manually from the Actions tab
+
+# Never let two runs overlap (a slow cold-start check could otherwise stack up).
+concurrency:
+  group: sentinel
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Sentinel
+        run: python main.py
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # Repository secret names cannot start with "GITHUB_", so the secret is
+          # named SENTINEL_GITHUB_TOKEN and mapped to the variable the code expects.
+          GITHUB_TOKEN: ${{ secrets.SENTINEL_GITHUB_TOKEN }}
+          SENTINEL_DRY_RUN: "false"
