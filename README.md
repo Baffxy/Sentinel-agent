@@ -88,3 +88,7 @@ To run it on a schedule, push the repo and add four repository secrets: `RENDER_
 ## Stack
 
 Python · GitHub Actions · GitHub REST API (PyGithub) · Render API · Groq (LLM diagnosis)
+
+## Core principle
+
+Sentinel is designed to reduce the time between a service failure and an actionable diagnosis. It combines automated health checks with evidence-aware LLM analysis, while keeping remediation under human control.
