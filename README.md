@@ -91,4 +91,4 @@ Python · GitHub Actions · GitHub REST API (PyGithub) · Render API · Groq (LL
 
 ## Core principle
 
-Sentinel is designed to reduce the time between a service failure and an actionable diagnosis. It combines automated health checks with evidence-aware LLM analysis, while keeping remediation under human control.
+Sentinel is designed to reduce the time between a service failure and an actionable diagnosis. It combines automated health checks with evidence-aware LLM analysis, while keeping remediation under human control. The agent can report, track and close incidents, but it cannot modify application code or deployment settings.
